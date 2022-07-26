@@ -1,0 +1,5 @@
+rd_enabled = true
+fleet_id = "1237eea8-73b1-4e5d-8520-fb2fa6aef739"
+
+[build]
+sccache = "/home/thrizzle/.cargo/bin/sccache"
