@@ -95,7 +95,7 @@ there are so many great and fast http clients for python, but i feel that they c
 
 not much setup is required, since the compiled rust is in the wheel.
   ```sh
-  $ pip install --user reqwest.py
+  $ pip install --user reqwest-py
   ```
 
 <!-- usage examples -->
