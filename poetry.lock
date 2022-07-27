@@ -26,6 +26,21 @@ optional = false
 python-versions = ">=3.5"
 
 [[package]]
+name = "maturin"
+version = "0.13.1"
+description = "Build and publish crates with pyo3, rust-cpython and cffi bindings as well as rust binaries as python packages"
+category = "dev"
+optional = false
+python-versions = ">=3.7"
+
+[package.dependencies]
+tomli = {version = ">=1.1.0", markers = "python_version < \"3.11\""}
+
+[package.extras]
+patchelf = ["patchelf"]
+zig = ["ziglang (>=0.9.0,<0.10.0)"]
+
+[[package]]
 name = "requests"
 version = "2.28.1"
 description = "Python HTTP for Humans."
@@ -44,6 +59,14 @@ socks = ["PySocks (>=1.5.6,!=1.5.7)"]
 use_chardet_on_py3 = ["chardet (>=3.0.2,<6)"]
 
 [[package]]
+name = "tomli"
+version = "2.0.1"
+description = "A lil' TOML parser"
+category = "dev"
+optional = false
+python-versions = ">=3.7"
+
+[[package]]
 name = "urllib3"
 version = "1.26.11"
 description = "HTTP library with thread-safe connection pooling, file post, and more."
@@ -59,14 +82,44 @@ socks = ["PySocks (>=1.5.6,!=1.5.7,<2.0)"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "3ef22631cfeb7a9dd3fd582e5b25aae6bde061e6baaa1054159b756faecf5da2"
+content-hash = "d5ece5a644d3e219c883b784910a52954b13e68e106b1456158a78cc697d01eb"
 
 [metadata.files]
-certifi = []
-charset-normalizer = []
+certifi = [
+    {file = "certifi-2022.6.15-py3-none-any.whl", hash = "sha256:fe86415d55e84719d75f8b69414f6438ac3547d2078ab91b67e779ef69378412"},
+    {file = "certifi-2022.6.15.tar.gz", hash = "sha256:84c85a9078b11105f04f3036a9482ae10e4621616db313fe045dd24743a0820d"},
+]
+charset-normalizer = [
+    {file = "charset-normalizer-2.1.0.tar.gz", hash = "sha256:575e708016ff3a5e3681541cb9d79312c416835686d054a23accb873b254f413"},
+    {file = "charset_normalizer-2.1.0-py3-none-any.whl", hash = "sha256:5189b6f22b01957427f35b6a08d9a0bc45b46d3788ef5a92e978433c7a35f8a5"},
+]
 idna = [
     {file = "idna-3.3-py3-none-any.whl", hash = "sha256:84d9dd047ffa80596e0f246e2eab0b391788b0503584e8945f2368256d2735ff"},
     {file = "idna-3.3.tar.gz", hash = "sha256:9d643ff0a55b762d5cdb124b8eaa99c66322e2157b69160bc32796e824360e6d"},
 ]
-requests = []
-urllib3 = []
+maturin = [
+    {file = "maturin-0.13.1-py3-none-macosx_10_7_x86_64.whl", hash = "sha256:a3aa3be37cff22b4309f1984f07b782d28b39e60dcb381b1b29f938e5fd2ed56"},
+    {file = "maturin-0.13.1-py3-none-macosx_10_9_x86_64.macosx_11_0_arm64.macosx_10_9_universal2.whl", hash = "sha256:c1927dbb9d1137e169beb06899a19fe5acd03bcd831d9a2cc008ffcfd854cb6e"},
+    {file = "maturin-0.13.1-py3-none-manylinux_2_12_i686.manylinux2010_i686.musllinux_1_1_i686.whl", hash = "sha256:89a475f9a9ad1072ce0e0525699787a9c3186c5850ba4e1b23fb2fa10586d1c2"},
+    {file = "maturin-0.13.1-py3-none-manylinux_2_12_x86_64.manylinux2010_x86_64.musllinux_1_1_x86_64.whl", hash = "sha256:7a60f5c1040985ef56b254f2c32f71dbf4ac11db0cc7cf80f0aeca6bd24cf324"},
+    {file = "maturin-0.13.1-py3-none-manylinux_2_17_aarch64.manylinux2014_aarch64.musllinux_1_1_aarch64.whl", hash = "sha256:d6086970da37bd8a0d06eb9c31197c25fbb4c82257b9a385786ce54e8b05071d"},
+    {file = "maturin-0.13.1-py3-none-manylinux_2_17_armv7l.manylinux2014_armv7l.musllinux_1_1_armv7l.whl", hash = "sha256:3c7890ee95973e474440e41f366aa906a96caa61b8ecfab7e9913beb0d76a73b"},
+    {file = "maturin-0.13.1-py3-none-manylinux_2_17_ppc64le.manylinux2014_ppc64le.musllinux_1_1_ppc64le.whl", hash = "sha256:501ad926d3b6f8b4c8cf2c3513616f72b77a060548dea9d6a7aef1245202e429"},
+    {file = "maturin-0.13.1-py3-none-manylinux_2_17_s390x.manylinux2014_s390x.whl", hash = "sha256:c36d5762e9d73eef3ca899225d2c8ad8373d9202908cbf598a295def952c98f6"},
+    {file = "maturin-0.13.1-py3-none-win32.whl", hash = "sha256:b68b15ffc5072b3a24f5c4147cdf391410475e005bd77b874af4b43816bc5afa"},
+    {file = "maturin-0.13.1-py3-none-win_amd64.whl", hash = "sha256:b687d45b43b5292b141a06414cb6ac352f5df5eb74adad9b489d91912ae4eeca"},
+    {file = "maturin-0.13.1-py3-none-win_arm64.whl", hash = "sha256:e156b0a358133ad6fd75abc4ddd424c193564b05eb2f6f2ecbccc827c3d4cffe"},
+    {file = "maturin-0.13.1.tar.gz", hash = "sha256:aef6e00e9eb4bdcbd10fda01247f3503354ae9b599b46bd4e55a14ea45b40915"},
+]
+requests = [
+    {file = "requests-2.28.1-py3-none-any.whl", hash = "sha256:8fefa2a1a1365bf5520aac41836fbee479da67864514bdb821f31ce07ce65349"},
+    {file = "requests-2.28.1.tar.gz", hash = "sha256:7c5599b102feddaa661c826c56ab4fee28bfd17f5abca1ebbe3e7f19d7c97983"},
+]
+tomli = [
+    {file = "tomli-2.0.1-py3-none-any.whl", hash = "sha256:939de3e7a6161af0c887ef91b7d41a53e7c5a1ca976325f429cb46ea9bc30ecc"},
+    {file = "tomli-2.0.1.tar.gz", hash = "sha256:de526c12914f0c550d15924c62d72abc48d6fe7364aa87328337a31007fe8a4f"},
+]
+urllib3 = [
+    {file = "urllib3-1.26.11-py2.py3-none-any.whl", hash = "sha256:c33ccba33c819596124764c23a97d25f32b28433ba0dedeb77d873a38722c9bc"},
+    {file = "urllib3-1.26.11.tar.gz", hash = "sha256:ea6e8fb210b19d950fab93b60c9009226c63a28808bc8386e05301e25883ac0a"},
+]
