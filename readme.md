@@ -114,8 +114,10 @@ not much setup is required, since the compiled rust is in the wheel.
 - [x] get requests
 - [x] client
 - [ ] crud support
-- [ ] headers
-- [ ] initiate client with values such as headers, queries, and user agents
+- [x] headers
+- [x] headers
+- [ ] user agent
+- [ ] caching that obeys cache-control headers
 
 see the [open issues](https://github.com/terabyte3/reqwest.py/issues) for a full list of proposed features (and known issues).
 
