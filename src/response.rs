@@ -33,7 +33,11 @@ impl Response {
 
     fn raise_for_status(&self) -> PyResult<Option<PyErr>> {
         if 400 <= self.status && self.status < 600 {
-            Err(PyErr::new::<HTTPError, _>(format!("{} {}", self.status, self.reason.clone())))
+            Err(PyErr::new::<HTTPError, _>(format!(
+                "{} {}",
+                self.status,
+                self.reason.clone()
+            )))
         } else {
             Ok(None)
         }
