@@ -1,16 +1,19 @@
 use pyo3::prelude::*;
+use pyo3::{create_exception, exceptions::PyException};
 use reqwest::{
     blocking::{get as r_get, Client as r_Client},
     header::{HeaderMap, HeaderName, HeaderValue},
     Method,
 };
 use std::{collections::HashMap, str::FromStr};
+use miniserde::json::from_str;
 static APP_USER_AGENT: &str = concat!(
     env!("CARGO_PKG_NAME"),
     "/",
     env!("CARGO_PKG_VERSION"),
 );
-use miniserde::json::from_str;
+
+create_exception!(reqwest, HTTPError, PyException);
 
 #[pyfunction]
 fn get(url: &str) -> PyResult<String> {
@@ -31,7 +34,7 @@ fn dict_to_headers(dict: HashMap<String, String>) -> HeaderMap {
 #[pyclass]
 struct Response {
     status: u16,
-    headers: HeaderMap,
+    headers: HashMap<String, String>,
     body: String,
 }
 
@@ -41,7 +44,7 @@ impl Response {
     fn new(status: u16, headers: HashMap<String, String>, body: String) -> Self {
         Self {
             status,
-            headers: dict_to_headers(headers),
+            headers,
             body,
         }
     }
@@ -56,13 +59,22 @@ impl Response {
 
     fn raise_for_status(&self) -> PyResult<Option<PyErr>> {
         if 400 <= self.status && self.status < 500 {
-            Err(PyErr::new::<PyValueError, _>(format!(
+            Err(PyErr::new::<HTTPError, _>(format!(
+                "HTTP error {}",
+                self.status
+            )))
+        } else if 500 <= self.status && self.status < 600 {
+            Err(PyErr::new::<HTTPError, _>(format!(
                 "HTTP error {}",
                 self.status
             )))
         } else {
             Ok(None)
         }
+    }
+
+    fn headers(&self) -> PyResult<HashMap<String, String>> {
+        Ok(self.headers.clone())
     }
 }
 
@@ -82,19 +94,25 @@ impl Client {
         }
     }
 
-    fn request(&self, method: &str, url: &str, headers: Option<HashMap<String, String>>) -> String {
-            self.r_client
+    fn request(&self, method: &str, url: &str, headers: Option<HashMap<String, String>>) -> Response {
+            let r = self.r_client
             .request(Method::from_bytes(method.as_bytes()).unwrap(), url)
             .headers(
                 dict_to_headers(headers.unwrap_or(HashMap::new())),
             )
             .send()
-            .unwrap()
-            .text()
-            .unwrap().trim().to_string()
+            .unwrap();
+            let mut h: HashMap<String, String> = HashMap::with_capacity(r.headers().len()) ;
+            for (key, value) in r.headers().iter() {
+                h.insert(
+                    key.to_string(),
+                    value.to_str().unwrap().to_string(),
+                );
+            }
+            Response { status: r.status().as_u16(), headers: h, body: r.text().unwrap() }
     }
 
-    fn get(&self, url: &str, headers: Option<HashMap<String, String>>) -> PyResult<String> {
+    fn get(&self, url: &str, headers: Option<HashMap<String, String>>) -> PyResult<Response> {
         Ok(self.request("GET", url, headers))
     }
 }
@@ -104,5 +122,6 @@ impl Client {
 fn reqwest(_py: Python, m: &PyModule) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(get, m)?)?;
     m.add_class::<Client>()?;
+    m.add_class::<Response>()?;
     Ok(())
 }
