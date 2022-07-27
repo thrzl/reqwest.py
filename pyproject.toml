@@ -11,6 +11,10 @@ python = "^3.8"
 [tool.poetry.dev-dependencies]
 requests = "^2.28.1"
 
+[tool.poetry.scripts]
+dev = "maturin develop"
+build = "maturin build"
+
 [build-system]
 requires = ["maturin>=0.13,<0.14"]
 build-backend = "maturin"
@@ -18,7 +22,7 @@ build-backend = "maturin"
 [project]
 name = "reqwest-py"
 requires-python = ">=3.7"
-readme = "README.md"
+readme = "readme.md"
 classifiers = [
     "Programming Language :: Rust",
     "Programming Language :: Python :: Implementation :: CPython",

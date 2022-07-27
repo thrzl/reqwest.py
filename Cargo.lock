@@ -400,6 +400,28 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "2a60c7ce501c71e03a9c9c0d35b861413ae925bd979cc7a4e30d060069aaac8d"
 
 [[package]]
+name = "mini-internal"
+version = "0.1.24"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "60bbf2d78a45808eba478a0660f050bbce70dafc011e275cf00f6f8500a8be88"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn",
+]
+
+[[package]]
+name = "miniserde"
+version = "0.1.24"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a89fcaf0064d3361240ae91a1f773d874302a62b4e6fdbd37b2888cb7d5aba3e"
+dependencies = [
+ "itoa",
+ "mini-internal",
+ "ryu",
+]
+
+[[package]]
 name = "miniz_oxide"
 version = "0.5.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -682,6 +704,7 @@ dependencies = [
 name = "reqwest-py"
 version = "0.1.0"
 dependencies = [
+ "miniserde",
  "pyo3",
  "reqwest",
  "ureq",
