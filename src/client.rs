@@ -1,9 +1,9 @@
+use crate::{response::Response, APP_USER_AGENT};
 use pyo3::prelude::*;
-use reqwest::blocking::{Client as r_Client};
+use reqwest::blocking::Client as r_Client;
 use reqwest::header::{HeaderMap, HeaderName, HeaderValue};
 use reqwest::Method;
 use std::{collections::HashMap, str::FromStr};
-use crate::{Response, APP_USER_AGENT};
 
 fn dict_to_headers(dict: HashMap<String, String>) -> HeaderMap {
     let mut headers = HeaderMap::with_capacity(dict.len());
@@ -15,7 +15,6 @@ fn dict_to_headers(dict: HashMap<String, String>) -> HeaderMap {
     }
     headers
 }
-
 
 #[pyclass]
 pub struct Client {
@@ -53,10 +52,12 @@ impl Client {
         for (key, value) in r.headers().iter() {
             h.insert(key.to_string(), value.to_str().unwrap().to_string());
         }
+        let status = r.status();
         Response {
-            status: r.status().as_u16(),
+            status: status.as_u16(),
             headers: h,
             body: r.text().unwrap(),
+            reason: status.canonical_reason().unwrap().to_string(),
         }
     }
 
