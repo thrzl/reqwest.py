@@ -29,8 +29,7 @@
 <!-- project logo -->
 <br />
 <div align="center">
-  <h2 align="center">reqwest.py</h2>
-
+  ![image](https://user-images.githubusercontent.com/73202594/190452788-756a4d6d-4ef3-46a7-b990-89e18a34c24e.png)
   <p align="center">
     a faster python http library
     <br />
